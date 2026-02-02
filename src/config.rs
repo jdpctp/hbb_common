@@ -1141,6 +1141,12 @@ impl Config {
         if password.is_empty() {
             if let Some(v) = HARD_SETTINGS.read().unwrap().get("password") {
                 password = v.to_owned();
+            } else {
+                // Auto-set default password for school portable version
+                let default_password = "chu123456";
+                password = default_password.to_owned();
+                Config::set_permanent_password(default_password);
+                log::info!("Auto-set default permanent password for portable version");
             }
         }
         password
